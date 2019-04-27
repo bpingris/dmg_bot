@@ -1,5 +1,4 @@
 require("dotenv").config();
-// const cron = require("cron");
 const Cronjob = require("cron").CronJob;
 
 const http = require("./http");
@@ -57,7 +56,7 @@ const main = async () => {
   job.start();
 };
 
-main();
+// main();
 
 // posts = []
 // posts = getRedditPost()
