@@ -59,7 +59,7 @@ const main = async () => {
 
   setInterval(async () => {
     posts = await prepareToTweet(posts);
-  }, 1000 * 60 * 60);
+  }, 1000 * 60 * 45);
 };
 
 main();
