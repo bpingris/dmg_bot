@@ -24,10 +24,9 @@ module.exports = {
         { media_data: b64content },
         (err, data, response) => {
           var mediaIdStr = data.media_id_string;
-          var altText = title;
+
           var meta_params = {
-            media_id: mediaIdStr,
-            alt_text: { text: altText }
+            media_id: mediaIdStr
           };
 
           T.post(
