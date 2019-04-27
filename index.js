@@ -31,32 +31,38 @@ const MakePosts = data => data.map(Post);
 
 const processPostsToArray = async () => MakePosts(await getRedditHotPosts());
 
+const prepareToTweet = (posts) => {
+  if (posts.length === 0) {
+    console.log("No more posts...");
+    console.log("Fetching new posts...");
+    posts = await processPostsToArray();
+    console.log("Done.");
+  }
+  console.log("Posting a tweet...");
+  const res = await myTwitter.tweetPost(posts.pop());
+  if (res.success) {
+    console.log("Done.");
+  } else {
+    console.log("An error occured");
+    console.log(res.error);
+  }
+  return posts
+}
+
 const main = async () => {
   console.log("Launching app...");
   console.log("Fetching new posts...");
   let posts = await processPostsToArray();
   console.log("Done.");
 
-  const job = new Cronjob(EACH_HOUR, async () => {
-    if (posts.length === 0) {
-      console.log("No more posts...");
-      console.log("Fetching new posts...");
-      posts = await processPostsToArray();
-      console.log("Done.");
-    }
-    console.log("Posting a tweet...");
-    const res = await myTwitter.tweetPost(posts.pop());
-    if (res.success) {
-      console.log("Done.");
-    } else {
-      console.log("An error occured");
-      console.log(res.error);
-    }
-  });
-  job.start();
+  posts = prepareToTweet(posts)
+
+  setTimeout(() => {
+    posts = prepareToTweet(posts)
+  }, 1000*60*60)
 };
 
-// main();
+main();
 
 // posts = []
 // posts = getRedditPost()
