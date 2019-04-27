@@ -63,9 +63,3 @@ const main = async () => {
 };
 
 main();
-
-// posts = []
-// posts = getRedditPost()
-// while posts.notEmpty
-//  tweet(posts.pop())
-//
