@@ -1,9 +1,9 @@
 require("dotenv").config();
-const cron = require("cron");
+// const cron = require("cron");
+const Cronjob = require("cron").CronJob;
 
 const http = require("./http");
 const myTwitter = require("./twitter");
-
 const { EACH_HOUR, OPTIONS, URL } = require("./constants");
 
 const getRedditHotPosts = async () => {
@@ -35,28 +35,26 @@ const processPostsToArray = async () => MakePosts(await getRedditHotPosts());
 const main = async () => {
   console.log("Launching app...");
   console.log("Fetching new posts...");
-  const posts = await processPostsToArray();
+  let posts = await processPostsToArray();
   console.log("Done.");
-  new cron.CronJob(
-    EACH_HOUR,
-    async () => {
-      if (posts.length === 0) {
-        console.log("No more posts...");
-        console.log("Fetching new posts...");
-        posts = await processPostsToArray();
-        console.log("Done.");
-      }
-      console.log("Posting a tweet...");
-      const res = await myTwitter.tweetPost(posts.pop());
-      if (res.success) {
-        console.log("Done.");
-      } else {
-        console.log("An error occured");
-        console.log(res.error);
-      }
-    },
-    ...OPTIONS
-  );
+
+  const job = new Cronjob(EACH_HOUR, async () => {
+    if (posts.length === 0) {
+      console.log("No more posts...");
+      console.log("Fetching new posts...");
+      posts = await processPostsToArray();
+      console.log("Done.");
+    }
+    console.log("Posting a tweet...");
+    const res = await myTwitter.tweetPost(posts.pop());
+    if (res.success) {
+      console.log("Done.");
+    } else {
+      console.log("An error occured");
+      console.log(res.error);
+    }
+  });
+  job.start();
 };
 
 main();
