@@ -1,0 +1,16 @@
+{
+  "name": "DMG",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "cron": "^1.7.1",
+    "dotenv": "^7.0.0",
+    "twit": "^2.2.11"
+  }
+}
