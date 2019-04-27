@@ -62,4 +62,4 @@ const main = async () => {
   }, 1000 * 60 * 60);
 };
 
-main();
+// main();
