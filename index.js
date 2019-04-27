@@ -33,8 +33,10 @@ const MakePosts = data => data.map(Post);
 const processPostsToArray = async () => MakePosts(await getRedditHotPosts());
 
 const main = async () => {
+  console.log("Launching app...");
+  console.log("Fetching new posts...");
   const posts = await processPostsToArray();
-
+  console.log("Done.");
   new cron.CronJob(
     EACH_HOUR,
     async () => {
