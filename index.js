@@ -57,7 +57,7 @@ const main = async () => {
 
   posts = await prepareToTweet(posts);
 
-  setTimeout(async () => {
+  setInterval(async () => {
     posts = await prepareToTweet(posts);
   }, 1000 * 60 * 60);
 };
