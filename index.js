@@ -31,7 +31,7 @@ const MakePosts = data => data.map(Post);
 
 const processPostsToArray = async () => MakePosts(await getRedditHotPosts());
 
-const prepareToTweet = (posts) => {
+const prepareToTweet = async posts => {
   if (posts.length === 0) {
     console.log("No more posts...");
     console.log("Fetching new posts...");
@@ -46,8 +46,8 @@ const prepareToTweet = (posts) => {
     console.log("An error occured");
     console.log(res.error);
   }
-  return posts
-}
+  return posts;
+};
 
 const main = async () => {
   console.log("Launching app...");
@@ -55,11 +55,11 @@ const main = async () => {
   let posts = await processPostsToArray();
   console.log("Done.");
 
-  posts = prepareToTweet(posts)
+  posts = await prepareToTweet(posts);
 
-  setTimeout(() => {
-    posts = prepareToTweet(posts)
-  }, 1000*60*60)
+  setTimeout(async () => {
+    posts = await prepareToTweet(posts);
+  }, 1000 * 60 * 60);
 };
 
 main();
